@@ -16,8 +16,8 @@ def dataset_entry(cfg, distributed, eval_only):
 def cifar10(data_root, batch_size, num_workers, distributed, cutout=False, eval_only=True):
     transform_train = transforms.Compose([
         transforms.RandomCrop(32, padding=4),
-	transforms.RandomHorizontalFlip(),
-	transforms.ToTensor(),
+        transforms.RandomHorizontalFlip(),
+        transforms.ToTensor(),
     ])
     if cutout:
         transform_train.transforms.append(utils.Cutout(n_holes=1, length=16))
@@ -35,8 +35,10 @@ def cifar10(data_root, batch_size, num_workers, distributed, cutout=False, eval_
         train_sampler = torch.utils.data.distributed.DistributedSampler(trainset, num_replicas=world_size, rank=rank)
         test_sampler = torch.utils.data.distributed.DistributedSampler(testset, num_replicas=world_size, rank=rank)
 
-    trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size, sampler=train_sampler, num_workers=num_workers, shuffle=(train_sampler is None))
-    testloader = torch.utils.data.DataLoader(testset, batch_size=batch_size, sampler=test_sampler, num_workers=num_workers)
+    trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size, sampler=train_sampler,
+                                              num_workers=num_workers, shuffle=(train_sampler is None))
+    testloader = torch.utils.data.DataLoader(testset, batch_size=batch_size, sampler=test_sampler,
+                                             num_workers=num_workers)
     if eval_only:
         return testloader
     return trainloader, testloader, train_sampler, test_sampler

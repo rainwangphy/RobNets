@@ -58,7 +58,8 @@ class _WarmUpLRScheduler(_LRScheduler):
     def _get_warmup_lr(self):
         if self.warmup_steps > 0 and self.last_iter < self.warmup_steps:
             # first compute relative scale for self.base_lr, then multiply to base_lr
-            scale = ((self.last_iter / self.warmup_steps) * (self.warmup_lr - self.base_lr) + self.base_lr) / self.base_lr
+            scale = ((self.last_iter / self.warmup_steps) * (
+                        self.warmup_lr - self.base_lr) + self.base_lr) / self.base_lr
             return [scale * base_lr for base_lr in self.base_lrs]
         else:
             return None
@@ -79,4 +80,3 @@ class CosineLRScheduler(_WarmUpLRScheduler):
         target_lr = self.eta_min + (self.warmup_lr - self.eta_min) * (1 + math.cos(math.pi * step_ratio)) / 2
         scale = target_lr / self.base_lr
         return [scale * base_lr for base_lr in self.base_lrs]
-

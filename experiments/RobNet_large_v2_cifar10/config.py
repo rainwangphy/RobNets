@@ -12,7 +12,7 @@ model_param = dict(C=64,
 # Dataset Params
 dataset = 'cifar10'
 dataset_param = dict(data_root='../data/cifar10',
-                     batch_size=32, # With a world_size of 32, the total batch_size is 1024 for training
+                     batch_size=32,  # With a world_size of 32, the total batch_size is 1024 for training
                      num_workers=2)
 report_freq = 10
 seed = 10
