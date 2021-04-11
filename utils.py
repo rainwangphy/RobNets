@@ -12,6 +12,10 @@ import torch
 from collections import defaultdict
 import numpy as np
 
+import os
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "6, 7"
+
 
 def calculate_gates_rate(gates, batch_size):
     gates_rate = []
@@ -64,7 +68,7 @@ def accuracy(output, target, topk=(1,)):
 
     res = []
     for k in topk:
-        correct_k = correct[:k].view(-1).float().sum(0, keepdim=True)
+        correct_k = correct[:k].reshape(-1).float().sum(0, keepdim=True)
         res.append(correct_k.mul_(100.0 / batch_size))
     return res
 
